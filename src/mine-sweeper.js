@@ -60,17 +60,6 @@ function minesweeper(matrix) {
         if ((i + 1) < matrix.length && (j + 1) < matrix[i].length) {
           mines[(i + 1)][(j + 1)] += 1;
         }
-          
-        /* if (!(i-- < 0 || j-- < 0 || i++ >= matrix.length || j++ >= matrix[i].length)) {
-          mines[i--][j--] += 1;
-          mines[i--][j] += 1;
-          mines[i--][j++] += 1;
-          mines[i][j--] += 1;
-          mines[i][j++] += 1;
-          mines[i++][j--] += 1;
-          mines[i++][j] += 1;
-          mines[i++][j++] += 1;
-        } */
       }      
     }
   }
