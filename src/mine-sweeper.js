@@ -23,9 +23,58 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper(matrix) {
+  const mines = [];
+
+  for (let i = 0; i < matrix.length; i++) {
+    mines.push([]);
+    for (let j = 0; j < matrix[i].length; j++) {
+      mines[i].push(0);
+    }
+  }
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix.length; j++) {
+      if (matrix[i][j]) {
+        if ((i - 1) >= 0 && (j - 1) >= 0) {
+          mines[(i - 1)][(j - 1)] += 1;
+        } 
+        if ((i - 1) >= 0) {
+          mines[(i - 1)][j] += 1;
+        } 
+        if ((j - 1) >= 0) {
+          mines[i][(j - 1)] += 1;
+        } 
+        if ((i - 1) >= 0 && (j + 1) < matrix[i].length) {
+          mines[(i - 1)][(j + 1)] += 1;
+        } 
+        if ((j + 1) < matrix[i].length) {
+          mines[i][(j + 1)] += 1;
+        } 
+        if ((i + 1) < matrix.length && (j - 1) >= 0) {
+          mines[(i + 1)][(j - 1)] += 1;
+        } 
+        if ((i + 1) < matrix.length) {
+          mines[(i + 1)][j] += 1;
+        } 
+        if ((i + 1) < matrix.length && (j + 1) < matrix[i].length) {
+          mines[(i + 1)][(j + 1)] += 1;
+        }
+          
+        /* if (!(i-- < 0 || j-- < 0 || i++ >= matrix.length || j++ >= matrix[i].length)) {
+          mines[i--][j--] += 1;
+          mines[i--][j] += 1;
+          mines[i--][j++] += 1;
+          mines[i][j--] += 1;
+          mines[i][j++] += 1;
+          mines[i++][j--] += 1;
+          mines[i++][j] += 1;
+          mines[i++][j++] += 1;
+        } */
+      }      
+    }
+  }
+  return mines;
 }
 
 module.exports = {
