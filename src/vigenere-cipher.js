@@ -20,13 +20,65 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(typeOfMachine) {
+    if (typeOfMachine === false) {
+      this.type = typeOfMachine
+    } else if (typeOfMachine === true || typeOfMachine === undefined) {
+      this.type = true
+    }
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(message, key) {
+    if (message === undefined || key === undefined) {
+      throw new Error('Incorrect arguments!');
+    } else {
+      const coefficient = Math.ceil(message.length / key.length);
+      key = key.repeat(coefficient).toUpperCase();
+      message = message.toUpperCase();
+
+      const codeA = 'A'.charCodeAt(0);
+      const alphabetLength = 26;
+      const result = [];
+
+      for (let i = 0, j = 0; i < message.length; i++) {
+        if (/[a-z]/i.test(message[i])) {
+          const charIdx = message.charCodeAt(i) - codeA;
+          const shift = key.charCodeAt(j) - codeA;
+
+          result.push(String.fromCharCode(codeA + (charIdx + shift) % alphabetLength));
+          j++;
+        } else {
+          result.push(message[i]);
+        }
+      }
+      return this.type ? result.join('') : result.reverse().join('');
+    }
+  }
+  decrypt(encryptedMessage, key) {
+    if (encryptedMessage === undefined || key === undefined) {
+      throw new Error('Incorrect arguments!');
+    } else {
+      const coefficient = Math.ceil(encryptedMessage.length / key.length);
+      key = key.repeat(coefficient).toUpperCase();
+      encryptedMessage = encryptedMessage.toUpperCase();
+
+      const codeA = 'A'.charCodeAt(0);
+      const alphabetLength = 26;
+      const result = [];
+
+      for (let i = 0, j = 0; i < encryptedMessage.length; i++) {
+        if (/[a-z]/i.test(encryptedMessage[i])) {
+          const charIdx = encryptedMessage.charCodeAt(i) - codeA;
+          const shift = key.charCodeAt(j) - codeA;
+
+          result.push(String.fromCharCode(codeA + (charIdx - shift + alphabetLength) % alphabetLength));
+          j++;
+        } else {
+          result.push(encryptedMessage[i]);
+        }
+      }
+      
+      return this.type ? result.join('') : result.reverse().join('');
+    }  
   }
 }
 
